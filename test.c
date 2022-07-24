@@ -1,0 +1,1 @@
+//create a function for client server communication using socket
