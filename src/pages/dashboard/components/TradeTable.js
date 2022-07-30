@@ -1,22 +1,23 @@
-import {  Table, Tag, Typography  } from 'antd';
-import { Paper } from '@mantine/core';
+import {  Table, Tag } from 'antd';
+import { Paper, Text } from '@mantine/core';
 import React from 'react';
 
-const { Text } = Typography;
 
 
 const columns = [
-    {
-        title: 'Status',
-        key: 'status',
-        dataIndex: 'status',
-        render: (status) => 
-         
-                <Tag color={status==="WIN" ? 'green' : 'red'}>
-                  {status}
-                </Tag>,      
-            
-      },
+  {
+    title: 'Status',
+    key: 'status',
+    dataIndex: 'status',
+    fixed: 'left',
+    width: 100,
+    render: (status) => 
+     
+            <Tag color={status==="WIN" ? 'green' : 'red'}>
+              {status}
+            </Tag>      
+        
+  },
   {
     title: 'Date',
     dataIndex: 'date',
@@ -31,11 +32,13 @@ const columns = [
     title: 'Buy Price',
     dataIndex: 'buy',
     key: 'buy',
+    render:(text)=><Text>₹{text}</Text>
   },
   {
     title: 'Sell Price',
     dataIndex: 'sell',
     key: 'sell',
+    render:(text)=><Text>₹{text}</Text>
   },
   {
     title: 'Quantity',
@@ -46,6 +49,10 @@ const columns = [
     title: 'Profit/Loss',
     dataIndex: 'gain',
     key: 'gain',
+    render :(text, record, index)=>
+    <Text color={record.status==="WIN" ? "green" : "red"}>
+    ₹{(record.sell-record.buy)*record.quantity}
+  </Text>  
 
   },
   {
@@ -62,111 +69,13 @@ const data = [
     status: 'WIN',
     date: '13/06/2022',
     symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
+    buy: '2400',
+    sell: '4250',
     quantity: '100',
     gain: '₹3000',
     strategy: 'Supply & Demand',
   },
-  {
-    key: '2',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '3',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '4',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '5',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '6',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '7',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '8',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '9',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
-  {
-    key: '10',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '₹2400',
-    sell: '₹425',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
+  
   
 ];
 

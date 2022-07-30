@@ -28,7 +28,7 @@ function StrategyWin() {
       <Group position="apart">
       <Text size="md" >
        Breakout Strategy
-      </Text>
+      </Text> 
       <Text size="sm"  color="gray">
        4/15
       </Text>

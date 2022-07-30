@@ -10,12 +10,19 @@ import {
     Select,  
     MultiSelect, 
 } from '@mantine/core';
+import { useContext } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { useState } from 'react';
 import { DatePicker } from '@mantine/dates';
+import {db} from '../../../firebase';
+import { collection, addDoc } from "firebase/firestore"; 
+import { AuthContext } from "../../../context/AuthContext";
 
 
 function AddTrade() {
+
+    const {currentUser} = useContext(AuthContext);
+
     const [opened, setOpened] = useState(false);
     const [data, setData] = useState(['React', 'Angular', 'Svelte', 'Vue']);
     const theme = useMantineTheme();
@@ -27,43 +34,30 @@ function AddTrade() {
     const [charge, setCharge] = useState('');
     const [strategy, setStrategy] = useState('');
     const [learning, setLearning] = useState([]);
-    const [tradeData, setTradeData] = useState({date: '',
-        symbol: '',
-        buy: '',
-        quantity: '',
-        sell: '',
-        charge: '',
-        strategy: '',
-        learning: '',})
 
-    const handleTradeEntry=(e)=>{
+    
+ 
+
+    const handleTradeEntry = async (e)=>{
         e.preventDefault();
-        setTradeData({
-            date : date,
-            symbol : symbol,
-            buy : buy,
-            quantity : quantity,
-            sell: sell,
-            charge: charge,
-            strategy: strategy,
-            learning: learning,
-        })
-        console.log(tradeData)
-        clearTradeEntry()
+        try{
+            await addDoc(collection(db, currentUser.uid), {date,
+                symbol,
+                buy,
+                quantity,
+                sell,
+                charge,
+                strategy,
+                learning,
+            });
+            
+        } catch (err){
+            console.log(err)
+        }
+       
     }
 
-    const clearTradeEntry=()=>{
-        
-        setDate('')
-        setSymbol('')
-        setCharge(1)
-        setBuy(0)
-        setQuantity(1)
-        setSell(0)
-        setStrategy('')
-        setLearning([])
-    }
-  
+
     return (
       <>
       <Modal
@@ -184,7 +178,6 @@ function AddTrade() {
                 
             />
             <Group position='right'>
-                {/* <Button my="sm" variant="outline" onClick={clearTradeEntry}>clear </Button> */}
                 <Button my="sm" onClick={handleTradeEntry} >Add </Button>
             </Group>
 
