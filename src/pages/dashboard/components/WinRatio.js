@@ -3,7 +3,7 @@ import { ArrowUpRight } from 'tabler-icons-react';
 function WinRatio() {
   return (
     <Paper shadow="sm" p="md" radius="md">
-      <Group position='apart' py="0">
+      <Group position='left' py="xs">
             <Stack>
                 <Text color="gray">Win Ratio</Text>
                 <Group spacing="xs">
@@ -14,9 +14,10 @@ function WinRatio() {
             </Stack>
             <RingProgress 
     
-                size={95}
+                size={80}
                 thickness={5}
                 roundCaps
+                my="-2px"
                 sections={[{ value: 75, color: 'green' }]} 
                 label={
                     <Text color="green" weight={450} align="center" size="xl">

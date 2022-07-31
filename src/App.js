@@ -13,6 +13,7 @@ import Profile from './pages/profile/Profile';
 import SignupForm from './pages/signup/SignupForm';
 import Home from "./pages/home/Home";
 import { AuthContext } from "./context/AuthContext";
+import Analysis from './pages/analysis/Analysis';
 
 
 
@@ -36,6 +37,7 @@ function App(){
            <Route path="dashboard" element={<RequireAuth><Dashboard/></RequireAuth>} />
            <Route path="trade" element={<RequireAuth><Trade /></RequireAuth>} />
            <Route path="profile" element={<RequireAuth><Profile/></RequireAuth>}/>
+           <Route path="analysis" element={<RequireAuth><Analysis/></RequireAuth>}/>
          </Route>
          <Route path="/login" element={<LoginForm />} /> 
          <Route path="/signup" element={<SignupForm/>}/>

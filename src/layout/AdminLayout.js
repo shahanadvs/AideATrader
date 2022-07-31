@@ -1,18 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import 'antd/dist/antd.css';
 import './AdminLayout.css';
 import MenuDrop from './components/Menu';
 import logo from './123.png'
 import logo2 from './1234.png'
 
-import { LayoutDashboard,  ReportAnalytics, User, Article, ChevronDown, Notification } from 'tabler-icons-react';
+import { LayoutDashboard,  ReportAnalytics, User, Article, Notification } from 'tabler-icons-react';
 
 import { Paper, Group, Container, Space, Image} from '@mantine/core';
 import { Layout, Menu } from 'antd';
 import Dashboard from '../pages/dashboard/Dashboard'
 import Trade from '../pages/trade/Trade';
 import Profile from '../pages/profile/Profile';
+import Analysis from '../pages/analysis/Analysis';
 
 import { AuthContext } from "../context/AuthContext";
 import { doc, getDoc, updateDoc  } from "firebase/firestore";
@@ -30,25 +31,25 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem('Dashboard', '1', <LayoutDashboard
+  getItem(<NavLink to="/dashboard">Dashboard</NavLink>, '1', <LayoutDashboard
   size={20}
   strokeWidth={2}
-  color={'#4078bf'}
+  
 />),
-  getItem('Trades', '2', <Article
+  getItem(<NavLink to="/trade">Trades</NavLink>, '2', <Article
   size={20}
   strokeWidth={2}
-  color={'#000'}
+  
 />),
-  getItem('Analysis', '3', <ReportAnalytics
+  getItem(<NavLink to="/analysis">Analysis</NavLink>, '3', <ReportAnalytics
   size={20}
   strokeWidth={2}
-  color={'#000'}
+  
 />),
-  getItem('Profile', '4', <User
+  getItem(<NavLink to="/profile">Profile</NavLink>, '4', <User
   size={20}
   strokeWidth={2}
-  color={'#000'}
+  
 />),
 ];
 
@@ -68,6 +69,8 @@ const AdminLayout = () => {
         getUserData()
     },[])
   const [collapsed, setCollapsed] = useState(false);
+
+
   return (
     <Layout
       style={{
@@ -104,7 +107,7 @@ const AdminLayout = () => {
             textAlign: 'center',
           }}
         >
-          Trade App © 2022 
+          Aide A Trader © 2022 
         </Footer>
       </Layout>
     </Layout>

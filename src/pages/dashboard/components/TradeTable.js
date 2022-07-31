@@ -1,6 +1,10 @@
 import {  Table, Tag } from 'antd';
 import { Paper, Text } from '@mantine/core';
-import React from 'react';
+import React, {useContext,useEffect, useState} from 'react';
+import {db} from '../../../firebase';
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../../context/AuthContext";
+
 
 
 
@@ -63,26 +67,32 @@ const columns = [
   
   
 ];
-const data = [
-  {
-    key: '1',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    sell: '4250',
-    quantity: '100',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-  },
+
+function TradeTable(){ 
+ 
+  const {currentUser} = useContext(AuthContext);
+  const [datas, setDatas] = useState([]);
+  const da =[];
+
+ const getData = async () =>{
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc)=>{
+      da.push(doc.data())
+    })
+    setDatas(da);
+  }
+useEffect(()=>{
+  getData();
+}, [])
   
-  
-];
 
-const TradeTable = () => <Paper shadow="sm" p="md" radius="md">
+return(
+  <Paper shadow="sm" p="md" radius="md">
+    <Table columns={columns} dataSource={datas} pagination ={false}/>
+  </Paper>
+)
 
-  <Table columns={columns} dataSource={data} pagination ={false}/>
-
-</Paper>;
+}
 
 export default TradeTable;

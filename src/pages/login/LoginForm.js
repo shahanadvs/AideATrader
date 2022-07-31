@@ -66,12 +66,7 @@ export function LoginForm() {
              Wrong email or password!
           </Notification>
         }
-        {/* <Group position="right" mt="md">
-          <Checkbox label="Remember me" />
-          <Anchor onClick={(event) => event.preventDefault()} href="#" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group> */}
+        
         <Button fullWidth mt="xl" onClick={handleLogin}>
           Sign in
         </Button>

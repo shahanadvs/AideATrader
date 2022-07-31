@@ -333,6 +333,8 @@ const data = [
 ];
 
 const Trade = () => {
+
+    
     const [opened, setOpened] = useState(false);
     const [datas, setDatas] = useState(['React', 'Angular', 'Svelte', 'Vue']);
     const theme = useMantineTheme();

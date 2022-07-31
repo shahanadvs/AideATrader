@@ -18,11 +18,10 @@ function Dashboard() {
         <Grid>
           <Grid.Col span={9}>
             <Grid columns={24} >
-                <Grid.Col span={8}><TotalReturn/></Grid.Col>
-                <Grid.Col span={8}><WinRatio/></Grid.Col>
-                <Grid.Col span={8}><AvgReturn/></Grid.Col>
-                {/* <Grid.Col span={16}>{child}</Grid.Col>
-                <Grid.Col span={8}>{child}</Grid.Col> */}
+                <Grid.Col span={9}><TotalReturn/></Grid.Col>
+                <Grid.Col span={6}><WinRatio/></Grid.Col>
+                <Grid.Col span={9}><AvgReturn/></Grid.Col>
+               
                 <Grid.Col span={24}><TradeTable/></Grid.Col>
 
             </Grid>
