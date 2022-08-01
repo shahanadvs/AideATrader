@@ -90,7 +90,7 @@ const AdminLayout = () => {
         
         <Paper p="md" shadow="sm" radius="md" mt="lg" mx="xl">
           <Group position="right" spacing="xs">
-          <Notification size={24} />
+          
          
           
           <MenuDrop {...userData}/>

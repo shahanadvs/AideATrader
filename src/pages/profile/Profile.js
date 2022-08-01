@@ -42,17 +42,17 @@ function Profile(){
                 <Grid>
                     <Grid.Col span={4}>
                         <Stack align="center" justify="center">
-                            <Avatar size="300" radius="xl">SV</Avatar>
+                            <Avatar size="xl" radius="xl"/>
                             <Title order={4}>{userData.firstName} {userData.lastName}</Title>
                             <Text>{userData.email}</Text>
-                            <Text>+91 {userData.phone}</Text>
+                            
                         </Stack>
                     </Grid.Col>
                     
                     <Grid.Col span={8} >
                         <Tabs  >
                             <Tabs.Tab label="Personal" icon={<Photo size={14} />}><Personal/></Tabs.Tab>
-                            <Tabs.Tab label="Notifications" icon={<MessageCircle size={14} />}><Notification/></Tabs.Tab>
+                            {/* <Tabs.Tab label="Notifications" icon={<MessageCircle size={14} />}><Notification/></Tabs.Tab> */}
                             <Tabs.Tab label="Settings" icon={<Settings size={14} />}><Setting/></Tabs.Tab>
                         </Tabs> 
                     </Grid.Col>

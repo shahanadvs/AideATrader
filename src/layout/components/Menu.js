@@ -28,9 +28,9 @@ const signingOut = () => {
       placement="end"
       control={
         <Group spacing={7}>
-          <Avatar color="cyan" radius="xl">
-            XL{" "}
-          </Avatar>
+          <Avatar color="cyan" radius="xl"/>
+          
+         
           <Text weight={500}>
             {firstName} {lastName}
           </Text>

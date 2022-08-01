@@ -41,6 +41,7 @@ import {db} from '../../../firebase';
     const [lastName, setLastName] = useState(userData.lastName)
     const [email, setEmail] = useState(userData.email)
     const [phone, setPhone] = useState(userData.phone)
+    const [photo, setPhoto] = useState('')
 
 
     const handleUpdateInfo= async(e)=>{
@@ -52,6 +53,7 @@ import {db} from '../../../firebase';
             lastName,
             email,
             phone,
+            photo,
         })
         setOpened(false)
 
@@ -96,10 +98,19 @@ import {db} from '../../../firebase';
                 onChange={(e)=>{setPhone(e.target.value)}}
                 
             />
+            <TextInput
+                
+                my="xs"
+                label="Photo URL "
+                placeholder="Paste URL of your photo"
+                onChange={(e)=>{setPhoto(e.target.value)}}
+                
+            />
              <TextInput
                 
                 my="xs"
                 label="Email "
+                disabled
                 placeholder={userData.email}
                 onChange={(e)=>{setEmail(e.target.value)}}
                 
@@ -128,7 +139,7 @@ import {db} from '../../../firebase';
             <Space h="xl"/>
             <Text>Email: {userData.email}</Text>
             <Space h="xl"/>
-            <Text>Phone: +91 {userData.phone} </Text>
+            { phone && <Text>Phone Number: {userData.phone}</Text>}
             <Space h="xl"/>
             <Space h="xl"/>
             <Button onClick={() => setOpened(true) }>Edit</Button>
