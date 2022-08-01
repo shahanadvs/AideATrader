@@ -7,9 +7,6 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { db } from "../../../firebase";
-import { collection, query, limit, getDocs } from "firebase/firestore";
-import { AuthContext } from "../../../context/AuthContext";
 
 
 function TotalReturn({data} ) {
@@ -37,10 +34,8 @@ function TotalReturn({data} ) {
 
   }
 useEffect(() => {
+    getData(); 
 
-  return()=>{
-    getData(); }
-  
 },[datas]);
   return (
     <AreaChart

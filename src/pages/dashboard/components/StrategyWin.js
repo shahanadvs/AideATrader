@@ -1,6 +1,58 @@
 import { Card, Image, Text, Group, Progress, Space } from '@mantine/core';
+import { useState, useEffect } from 'react';
 
-function StrategyWin() {
+function StrategyWin({data}) {
+
+  const [datas, setDatas] = useState([]);
+  const da = data;
+  const da2 = [];
+
+  const getData =  () => {
+    const stra=[];
+
+    da.forEach((cr, ind)=>{
+      const isPre = (e) => e == cr.strategy; 
+      var x = stra.findIndex(isPre);
+      if (x===-1 && cr.status =="WIN"){
+        stra.push(cr.strategy);
+        da2.push({
+          strategy: cr.strategy,
+          count : 1,
+          win : 1,
+        });
+      }else if(x===-1 && cr.status =="LOSS") {
+        stra.push(cr.strategy);
+        da2.push({
+          strategy: cr.strategy,
+          count : 1,
+          win : 0,
+        });
+      }else if (x!=-1 && cr.status =="WIN"){
+        da2[x].count = da2[x].count + 1;
+        da2[x].win = da2[x].win + 1;
+      }else {
+        da2[x].count = da2[x].count + 1;
+        da2[x].win = da2[x].win + 0;
+      }
+	  
+    })
+    setDatas(da2);
+    
+
+  }
+useEffect(() => {
+
+ 
+    getData(); 
+  
+    
+  
+},[datas]);
+
+
+
+
+
   return (
     <Card
       shadow="sm"
@@ -14,63 +66,28 @@ function StrategyWin() {
         Strategy Winrate
       </Text>
 
-      <Group position="apart">
-      <Text size="md" >
-       Supply & Demand Method
-      </Text>
+      {datas.map((cr, ind)=>{
+        return (
+          <>
+          <Group key={datas.strategy} position="apart">
+            <Text size="md" >
+             {datas.strategy}
+             </Text>
       <Text size="sm"  color="gray">
-       7/10
+       {datas.win}/{datas.count}
       </Text>
       </Group>
-      <Progress my="xs" value={70} />
+      <Progress my="xs" value={(datas.win/datas.count)*100} />
       <Space h="xs"/>
+          </>
+        )
+      })
 
-      <Group position="apart">
-      <Text size="md" >
-       Breakout Strategy
-      </Text> 
-      <Text size="sm"  color="gray">
-       4/15
-      </Text>
-      </Group>
-      <Progress my="xs" value={25} />
-      <Space h="xs"/>
-       
+      }
 
-      <Group position="apart">
-      <Text size="md" >
-       News-based Trading
-      </Text>
-      <Text size="sm"  color="gray">
-       2/20
-      </Text>
-      </Group>
-      <Progress my="xs" value={5} />
-      <Space h="xs"/>
+      
 
-
-      <Group position="apart">
-      <Text size="md" >
-       Support & Resistance
-      </Text>
-      <Text size="sm"  color="gray">
-       5/10
-      </Text>
-      </Group>
-      <Progress my="xs" value={50} />
-      <Space h="xs"/>
-
-
-      <Group position="apart">
-      <Text size="md" >
-       Price Action Trading
-      </Text>
-      <Text size="sm"  color="gray">
-       9/12
-      </Text>
-      </Group>
-      <Progress my="xs" value={75} />
-      <Space h="xs"/>
+      
 
     </Card>
   );
