@@ -40,28 +40,28 @@ getData(); }
           <Paper shadow="sm" p="md" radius="md">
             <Text>Daily P/L</Text>
             <Space h="md" />
-            <DailyGraph data={datas} />
+            <DailyGraph />
           </Paper>
         </Grid.Col>
         <Grid.Col span={6}>
           <Paper shadow="sm" p="md" radius="md">
             <Text>Total Return</Text>
             <Space h="md" />
-            <AvgReturn data={datas}  />
+            <TotalReturn />
           </Paper>
         </Grid.Col>
         <Grid.Col span={6}>
           <Paper shadow="sm" p="md" radius="md">
             <Text>Average Return</Text>
             <Space h="md" />
-            <TotalReturn data={datas} />
+            <AvgReturn   />
           </Paper>
         </Grid.Col>
         <Grid.Col span={6}>
           <Paper shadow="sm" p="md" radius="md">
             <Text>Strategy-wise P/L</Text>
             <Space h="md" />
-            <StrategyGraph data={datas} />
+            <StrategyGraph />
           </Paper>
         </Grid.Col>
       </Grid>

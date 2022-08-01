@@ -90,7 +90,7 @@ function TradeTable(){
     getData();
   }
         
-  }, [datas])
+  }, [])
 
 return(
   <Paper shadow="sm" p="md" radius="md">

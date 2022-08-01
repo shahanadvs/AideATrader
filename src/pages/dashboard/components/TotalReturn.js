@@ -3,17 +3,32 @@ import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react';
 import React, {useEffect, useState, useContext} from "react";
 
 import { AreaChart, Area } from "recharts";
+import { db } from "../../../firebase";
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../../context/AuthContext";
 
 
-function TotalReturn({data}) {
 
+function TotalReturn() {
+  const { currentUser } = useContext(AuthContext);
   const [datas, setDatas] = useState([]);
   const [tot, setTot] = useState(0);
   const [totP, setTotP] = useState(0);
-  const da = data;
+  const da = [];
   const da2 = [];
 
-  const getData =  () => {
+  const getData = async () => {
+    
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      da.push(doc.data());
+    });
+    setDatas(da);
+
+
+
+
     var totR =0;
     da.forEach((cr, ind)=>{
       da2.push({
@@ -36,12 +51,10 @@ function TotalReturn({data}) {
 
   }
 useEffect(() => {
+return ()=>{
+getData(); }
+},[]);
 
-  
-   
-    getData();
-  
-},[datas]);
 
   return (
     <Paper shadow="sm" p="md" radius="md">

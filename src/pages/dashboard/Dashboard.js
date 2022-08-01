@@ -51,9 +51,9 @@ getData(); }
         <Grid>
           <Grid.Col span={9}>
             <Grid columns={24} >
-                <Grid.Col span={9}><TotalReturn data={datas}/></Grid.Col>
-                <Grid.Col span={6}><WinRatio data={datas}/></Grid.Col>
-                <Grid.Col span={9}><AvgReturn data={datas}/></Grid.Col>
+                <Grid.Col span={9}><TotalReturn/></Grid.Col>
+                <Grid.Col span={6}><WinRatio/></Grid.Col>
+                <Grid.Col span={9}><AvgReturn /></Grid.Col>
                
                 <Grid.Col span={24}><TradeTable/></Grid.Col>
 
@@ -70,7 +70,7 @@ getData(); }
 
                 </Grid.Col>
                 <Grid.Col span={12}>
-                    <StrategyWin data={datas}/>
+                    <StrategyWin/>
                 </Grid.Col>
                 
 

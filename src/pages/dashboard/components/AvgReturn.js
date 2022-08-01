@@ -3,17 +3,29 @@ import { ArrowUpRight, ArrowDownRight } from 'tabler-icons-react';
 import React, {useEffect, useState, useContext} from "react";
 
 import { AreaChart, Area } from "recharts";
+import { db } from "../../../firebase";
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../../context/AuthContext";
 
-
-function AvgReturn({data}) {
-
+function AvgReturn() {
+  const { currentUser } = useContext(AuthContext);
   const [datas, setDatas] = useState([]);
   const [av, setAv] = useState(0);
   const [avP, setAvP] = useState(0);
-  const da = data;
+  const da = [];
   const da2 = [];
 
-  const getData =  () => {
+
+  const getData = async () => {
+    
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      da.push(doc.data());
+    });
+    setDatas(da);
+
+
     var totR =0;
 
     da.forEach((cr, ind)=>{
@@ -39,13 +51,10 @@ function AvgReturn({data}) {
 
   }
   useEffect(() => {
-
+    return ()=>{
+    getData(); }
+    },[]);
     
-      
-        getData(); 
-      
-    
-  },[datas]);
 
 
   return (

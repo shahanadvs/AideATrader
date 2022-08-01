@@ -1,15 +1,28 @@
 import { Text, Paper, Group, Stack, RingProgress } from '@mantine/core';
 import { ArrowUpRight } from 'tabler-icons-react';
-import {useState, useEffect} from "react";
+import {useState, useEffect, useContext} from "react";
+import { db } from "../../../firebase";
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../../context/AuthContext";
 
+function WinRatio() {
 
-function WinRatio({data}) {
-
-
-  const da = data;
+  const { currentUser } = useContext(AuthContext);
+  const [datas, setDatas] = useState([]);
+  const da = [];
+  const da2 = [];
   const [win, setWin] = useState(0);
 
-  const getData =  () => {
+  const getData = async () => {
+    
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      da.push(doc.data());
+    });
+    setDatas(da);
+
+
     var win =0;
     
 
@@ -24,15 +37,10 @@ function WinRatio({data}) {
 
   }
   useEffect(() => {
-
+    return ()=>{
+    getData(); }
+    },[]);
     
-      
-        getData();
-       
-        
-      
-    
-  },[win]);
 
 
 

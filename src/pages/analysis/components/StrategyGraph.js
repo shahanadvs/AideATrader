@@ -6,14 +6,22 @@ import { AuthContext } from "../../../context/AuthContext";
 
 
 
-function StrategyGraph({data}) {
+function StrategyGraph() {
 
   const { currentUser } = useContext(AuthContext);
   const [datas, setDatas] = useState([]);
-  const da = data;
+  const da = [];
   const da2 = [];
 
-  const getData =  () => {
+  const getData =  async() => {
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      da.push(doc.data());
+    });
+    setDatas(da);
+
+
     const stra=[];
 
     da.forEach((cr, ind)=>{
@@ -37,9 +45,11 @@ function StrategyGraph({data}) {
 useEffect(() => {
 
   
+   return()=>{
     getData(); 
+   }
   
-},[datas]);
+},[]);
 
 
 

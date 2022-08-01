@@ -1,5 +1,5 @@
 import {  Table, Tag } from 'antd';
-import { Plus } from 'tabler-icons-react';
+import { Plus, Trash } from 'tabler-icons-react';
 import React, {useContext,useEffect, useState} from 'react';
 import { 
     Button, 
@@ -157,6 +157,12 @@ const columns = [
     }
 
     },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: (val, rec) => <Trash/>,
+    },
     
   
   
@@ -200,6 +206,13 @@ const Trade = () => {
       getData();
     }
   },[])
+
+
+  const onDelete = (index) => {
+    
+  }
+
+
 
     
   const handleTradeEntry = async (e)=>{
