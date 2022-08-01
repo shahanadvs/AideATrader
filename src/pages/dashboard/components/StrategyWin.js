@@ -64,16 +64,16 @@ function StrategyWin() {
         Strategy Winrate
       </Text>
 
-      {datas.forEach((cr, ind) => {
+      {datas.map((cr) => {
         return (
           <>
             <Group  position="apart">
-              <Text size="md">{datas.strategy}</Text>
+              <Text size="md">{cr.strategy}</Text>
               <Text size="sm" color="gray">
-                {datas.win}/{datas.count}
+                {cr.win}/{cr.count}
               </Text>
             </Group>
-            <Progress my="xs" value={(datas.win / datas.count) * 100} />
+            <Progress my="xs" value={(cr.win / cr.count) * 100} />
             <Space h="xs" />
           </>
         );
