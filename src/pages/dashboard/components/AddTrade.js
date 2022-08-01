@@ -15,18 +15,18 @@ import { Plus } from 'tabler-icons-react';
 import { useState } from 'react';
 import { DatePicker } from '@mantine/dates';
 import {db} from '../../../firebase';
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 import { AuthContext } from "../../../context/AuthContext";
 
 
-function AddTrade() {
+function AddTrade({handleUpdate}) {
 
     const {currentUser} = useContext(AuthContext);
 
     const [opened, setOpened] = useState(false);
     const [data, setData] = useState(['React', 'Angular', 'Svelte', 'Vue']);
     const theme = useMantineTheme();
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState();
     const [symbol, setSymbol] = useState('');
     const [buy, setBuy] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -34,12 +34,14 @@ function AddTrade() {
     const [charge, setCharge] = useState('');
     const [strategy, setStrategy] = useState('');
     const [learning, setLearning] = useState([]);
-
     
  
 
     const handleTradeEntry = async (e)=>{
         e.preventDefault();
+        const created = Timestamp.now()
+        const status = ((sell*quantity) - (buy*quantity) - charge) >0 ? 'WIN' : 'LOSS';
+        setOpened(!opened);
         try{
             await addDoc(collection(db, currentUser.uid), {date,
                 symbol,
@@ -49,12 +51,17 @@ function AddTrade() {
                 charge,
                 strategy,
                 learning,
+                status,
+                created,
+
             });
             
         } catch (err){
             console.log(err)
         }
-       
+        
+       handleUpdate();
+        
     }
 
 
@@ -77,10 +84,12 @@ function AddTrade() {
                         my="xs"
                         placeholder="Date"
                         label="Trade date"
-                        inputFormat="DD/MM/YYYY"
-                        labelFormat="MM/YYYY"
-                        defaultValue={new Date()}
-                        onChange={(e)=>setDate(e.target.value)}
+                        
+                        
+                        onChange={(e)=> {
+                            const d = `${e.getDate()}/${ e.getMonth() + 1}/${e.getFullYear()}`;
+                            setDate(d);
+                        }}
                         required
                 />
                 <TextInput
@@ -174,7 +183,11 @@ function AddTrade() {
                 creatable
                 getCreateLabel={(query) => `+ Create ${query}`}
                 onCreate={(query) => setData((current) => [...current, query])}
-                onChange={(e)=>setLearning(e)}
+                onChange={ (e)=>{
+                    const l = e;
+                    setLearning(l)
+                    
+                }}
                 
             />
             <Group position='right'>

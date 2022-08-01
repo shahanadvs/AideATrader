@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/AuthContext";
 
 
 
-function DailyGraph({data}) {
+function StrategyGraph({data}) {
 
   const { currentUser } = useContext(AuthContext);
   const [datas, setDatas] = useState([]);
@@ -14,15 +14,15 @@ function DailyGraph({data}) {
   const da2 = [];
 
   const getData =  () => {
-    const days=[];
+    const stra=[];
 
     da.forEach((cr, ind)=>{
-      const isPre = (e) => e == cr.date; 
-      var x = days.findIndex(isPre);
+      const isPre = (e) => e == cr.strategy; 
+      var x = stra.findIndex(isPre);
       if (x===-1){
-        days.push(cr.date);
+        stra.push(cr.strategy);
         da2.push({
-          date: cr.date,
+          strategy: cr.strategy,
           pr: ((cr.sell-cr.buy)*cr.quantity),
         });
       }else{
@@ -46,7 +46,7 @@ useEffect(() => {
   return (
     <BarChart width={580} height={300} data={datas}>
      <CartesianGrid  strokeDasharray="3 10" />
-     <XAxis dataKey="date" />
+     <XAxis dataKey="strategy" />
      <YAxis />
      <Tooltip />
    
@@ -55,4 +55,4 @@ useEffect(() => {
   );
 }
 
-export default DailyGraph;
+export default StrategyGraph;

@@ -1,6 +1,6 @@
 import {  Table, Tag } from 'antd';
 import { Plus } from 'tabler-icons-react';
-import React from 'react';
+import React, {useContext,useEffect, useState} from 'react';
 import { 
     Button, 
     Modal, 
@@ -15,10 +15,11 @@ import {
     Space,
     Text,
 } from '@mantine/core';
-import { useState } from 'react';
 import { DatePicker } from '@mantine/dates';
 import SearchBar from './components/SearchBar';
-
+import {db} from '../../firebase';
+import { collection, query, limit, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import { AuthContext } from "../../context/AuthContext";
 
 
 const columns = [
@@ -107,7 +108,7 @@ const columns = [
     sorter: (a, b) => a.gain - b.gain,
     render :(text, record, index)=>
     <Text color={record.status==="WIN" ? "green" : "red"}>
-    ₹{record.sellvalue-record.buyvalue}
+    ₹{(record.sell-record.buy)*record.quantity}
   </Text>  
     
 
@@ -131,213 +132,103 @@ const columns = [
   },
   {
     title: 'Learnigs/Mistakes',
-    dataIndex: 'learnings',
+    dataIndex: 'learning',
     key: 'learnings',
     width: 170,
     filters: [
-        {
-          text: 'Learning',
-          value: 'Learning',
-        },
-        {
-          text: 'Mistake',
-          value: 'Mistake',
-        },
-      ],
-      onFilter: (value, record) => record.address.indexOf(value) === 0,
-  },
+      {
+        text: 'Learning',
+        value: 'Learning',
+      },
+      {
+        text: 'Mistake',
+        value: 'Mistake',
+      },
+    ],
+    onFilter: (value, record) => record.address.indexOf(value) === 0,
+    render: (text, record, index) =>{
+        return (
+          text.map((item)=>{
+            return <Text>{item}</Text>
+          }
+
+          )
+        )
+    }
+
+    },
+    
+  
   
   
 ];
-const data = [
-  {
-    key: '1',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425', 
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '2',
-    status: 'LOSS',
-    date: '13/07/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '3',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '4',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '5',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '6',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '7',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '8',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '9',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '10',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '11',
-    status: 'WIN',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '2400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-  {
-    key: '12',
-    status: 'LOSS',
-    date: '13/06/2022',
-    symbol: 'Reliance',
-    buy: '3400',
-    quantity: '100',
-    buyvalue: '240000',
-    sell: '425',
-    sellvalue: '42500',
-    charge: '200',
-    gain: '₹3000',
-    strategy: 'Supply & Demand',
-    learnings: 'learning1',
-  },
-];
+
+ 
 
 const Trade = () => {
 
+
+  const [opened, setOpened] = useState(false);
+  const [data, setData] = useState(['React', 'Angular', 'Svelte', 'Vue']);
+  const theme = useMantineTheme();
+  const [date, setDate] = useState();
+  const [symbol, setSymbol] = useState('');
+  const [buy, setBuy] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [sell, setSell] = useState(''); 
+  const [charge, setCharge] = useState('');
+  const [strategy, setStrategy] = useState('');
+  const [learning, setLearning] = useState([]);
+
+  const {currentUser} = useContext(AuthContext);
+  const [datas, setDatas] = useState([]);
+  const da =[];
+
+ const getData = async () =>{
+    const q = query(collection(db, currentUser.uid), limit(10));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc)=>{
+      da.push(doc.data())
+    })
+    setDatas(da);
+  }
+
+  useEffect(() => {
+   
+
+    return () => {
+      getData();
+    }
+  },[])
+
     
-    const [opened, setOpened] = useState(false);
-    const [datas, setDatas] = useState(['React', 'Angular', 'Svelte', 'Vue']);
-    const theme = useMantineTheme();
+  const handleTradeEntry = async (e)=>{
+    e.preventDefault();
+    const created = Timestamp.now()
+    const status = ((sell*quantity) - (buy*quantity) - charge) >0 ? 'WIN' : 'LOSS';
+    setOpened(!opened);
+    try{
+        await addDoc(collection(db, currentUser.uid), {date,
+            symbol,
+            buy,
+            quantity,
+            sell,
+            charge,
+            strategy,
+            learning,
+            status,
+            created,
+
+        });
+        
+    } catch (err){
+        console.log(err)
+    }
+    
+    
+}
+
+
     return(
         <>
         <Modal
@@ -350,22 +241,28 @@ const Trade = () => {
         
         title="Add Your Trade."
       >
-        <form>
+        <form >
             <Group >
                 <DatePicker
                         style={{width:'190px'}}
                         my="xs"
                         placeholder="Date"
                         label="Trade date"
-                        inputFormat="DD/MM/YYYY"
-                        labelFormat="MM/YYYY"
-                        defaultValue={new Date()}
+                        
+                        
+                        onChange={(e)=> {
+                            const d = `${e.getDate()}/${ e.getMonth() + 1}/${e.getFullYear()}`;
+                            setDate(d);
+                        }}
+                        required
                 />
                 <TextInput
                 style={{width:'190px'}}
                 my="xs"
                 label="Symbol"
                 placeholder="Enter Symbol"
+                onChange={(e)=>setSymbol(e.target.value)}
+                required
                 />
             </Group>
             <Group>
@@ -380,6 +277,8 @@ const Trade = () => {
                     ? `₹ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     : '₹ '
                 }
+                onChange={(e)=>setBuy(e)}
+                required
             />
              <NumberInput
                 style={{width:'190px'}}
@@ -388,6 +287,8 @@ const Trade = () => {
                 min="1"
                 defaultValue={1}
                 parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                onChange={(e)=>setQuantity(e)}
+                required
                 
             />
             </Group>
@@ -403,6 +304,8 @@ const Trade = () => {
                     ? `₹ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     : '₹ '
                 }
+                onChange={(e)=>setSell(e)}
+                required
             />
              <NumberInput
                 style={{width:'190px'}}
@@ -415,6 +318,8 @@ const Trade = () => {
                     ? `₹ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                     : '₹ '
                 }
+                onChange={(e)=>setCharge(e)}
+                required
             />
             </Group>
             <Select
@@ -423,27 +328,34 @@ const Trade = () => {
                 label="Trading Strategy or Method"
                 clearable
                 allowDeselect 
-                data={datas}
+                data={data}
                 placeholder="Select items"
                 nothingFound="Nothing found"
                 searchable
                 creatable
                 getCreateLabel={(query) => `+ Create ${query}`}
-                onCreate={(query) => setDatas((current) => [...current, query])}
+                onCreate={(query) => setData((current) => [...current, query])}
+                onChange={(e)=>setStrategy(e)}
+                
             />
             <MultiSelect
                 my="xs"
                 label="Learnings or Mistakes"
-                data={datas}
+                data={data}
                 placeholder="Select items"
                 searchable
                 creatable
                 getCreateLabel={(query) => `+ Create ${query}`}
-                onCreate={(query) => setDatas((current) => [...current, query])}
+                onCreate={(query) => setData((current) => [...current, query])}
+                onChange={ (e)=>{
+                    const l = e;
+                    setLearning(l)
+                    
+                }}
+                
             />
             <Group position='right'>
-                <Button my="sm" variant="outline" >clear </Button>
-                <Button my="sm" >Add </Button>
+                <Button my="sm" onClick={handleTradeEntry} >Add </Button>
             </Group>
 
         </form>
@@ -458,7 +370,7 @@ const Trade = () => {
                         <Button onClick={() => setOpened(true) }>Add New<Space w="md"/> <Plus size={24}/></Button>
                         <SearchBar/>
                     </Group>
-                    <Table columns={columns} dataSource={data}  scroll={{x: 1700,}}/>
+                    <Table columns={columns} dataSource={datas}  scroll={{x: 1700,}}/>
 
                 </Paper>
             </Container>

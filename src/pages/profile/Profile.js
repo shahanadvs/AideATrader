@@ -31,7 +31,9 @@ function Profile(){
     }
         
     useEffect(()=>{
-        getUserData()
+        return()   => {
+            getUserData()
+        }
     },[])
     
     return(

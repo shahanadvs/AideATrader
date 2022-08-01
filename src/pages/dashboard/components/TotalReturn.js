@@ -1,56 +1,38 @@
-/** @format */
-
-import { Text, Paper, Group, Stack, RingProgress } from "@mantine/core";
-import { ArrowUpRight } from "tabler-icons-react";
+import { Text, Paper, Group, Stack, RingProgress } from '@mantine/core';
+import { ArrowUpRight } from 'tabler-icons-react';
+import React, {useEffect, useState, useContext} from "react";
 
 import { AreaChart, Area } from "recharts";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
-function TotalReturn() {
+function TotalReturn({data}) {
+
+  const [datas, setDatas] = useState([]);
+  const da = data;
+  const da2 = [];
+
+  const getData =  () => {
+    var totR =0;
+    da.forEach((cr, ind)=>{
+      da2.push({
+      sl:ind,
+      date: cr.date,
+      tR: totR + ((cr.sell-cr.buy)*cr.quantity)
+      });
+	  totR = totR + ((cr.sell-cr.buy)*cr.quantity)
+    })
+    setDatas(da2);
+    
+
+  }
+useEffect(() => {
+
+  
+   return()=>{
+    getData();
+  }
+},[datas]);
+
   return (
     <Paper shadow="sm" p="md" radius="md">
       <Group position="left" py="sm">
@@ -81,7 +63,7 @@ function TotalReturn() {
     </linearGradient>
   
   </defs>
-      <Area type="monotone" dataKey="uv" stroke="#f5832c" strokeWidth="2px" fill="url(#colorUv)"/>
+      <Area type="monotone" dataKey="tR" stroke="#f5832c" strokeWidth="2px" fill="url(#colorUv)"/>
     </AreaChart>
       </Group>
     </Paper>

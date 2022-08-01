@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../../firebase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {AuthContext} from  '../../context/AuthContext'
 import { doc, setDoc } from "firebase/firestore"; 
 import {db} from '../../firebase'
@@ -75,9 +75,7 @@ export function SignUpForm() {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Already have an account?{' '}
-        <Anchor href="#" size="sm" onClick={(event) => event.preventDefault()}>
-          Sign In
-        </Anchor>
+        <Link to="/login">Sign In</Link>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">

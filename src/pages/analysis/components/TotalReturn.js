@@ -7,9 +7,12 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import { db } from "../../../firebase";
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { AuthContext } from "../../../context/AuthContext";
 
 
-function AvgReturn({data} ) {
+function TotalReturn({data} ) {
 
   
   const [datas, setDatas] = useState([]);
@@ -18,13 +21,16 @@ function AvgReturn({data} ) {
 
   const getData =  () => {
     var totR =0;
+
     da.forEach((cr, ind)=>{
+      totR = totR + ((cr.sell-cr.buy)*cr.quantity)
       da2.push({
       sl:ind,
       date: cr.date,
-      tR: totR + ((cr.sell-cr.buy)*cr.quantity)
+      tR: totR,
+      aR: totR/(ind+1),
       });
-	  totR = totR + ((cr.sell-cr.buy)*cr.quantity)
+	  
     })
     setDatas(da2);
     
@@ -32,8 +38,8 @@ function AvgReturn({data} ) {
   }
 useEffect(() => {
 
-  
-    getData(); 
+  return()=>{
+    getData(); }
   
 },[datas]);
   return (
@@ -56,8 +62,8 @@ useEffect(() => {
       <XAxis dataKey="date" />
       <YAxis />
       <Tooltip />
-      <Area type="monotone" dataKey="tR" stroke="#8884d8" strokeWidth="2px" fill="url(#colorUv)" />
+      <Area type="monotone" dataKey="aR" stroke="#8884d8" strokeWidth="2px" fill="url(#colorUv)" />
     </AreaChart>
   );
 }
-export default AvgReturn;
+export default TotalReturn;

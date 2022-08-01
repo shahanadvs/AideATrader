@@ -82,14 +82,19 @@ function TradeTable(){
     })
     setDatas(da);
   }
-useEffect(()=>{
-  getData();
-}, [])
-  
+
+  useEffect(() => {
+    
+    
+  return()=>{
+    getData();
+  }
+        
+  }, [datas])
 
 return(
   <Paper shadow="sm" p="md" radius="md">
-    <Table columns={columns} dataSource={datas} pagination ={false}/>
+    <Table columns={columns} dataSource={datas} rowKey={datas.created} pagination ={false}/>
   </Paper>
 )
 

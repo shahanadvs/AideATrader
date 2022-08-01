@@ -66,7 +66,9 @@ const AdminLayout = () => {
     }
         
     useEffect(()=>{
-        getUserData()
+        return()=>{
+          getUserData()
+        }
     },[])
   const [collapsed, setCollapsed] = useState(false);
 
